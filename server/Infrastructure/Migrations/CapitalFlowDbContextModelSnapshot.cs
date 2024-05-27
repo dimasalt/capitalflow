@@ -104,6 +104,18 @@ namespace Infrastructure.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("JwtRefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("JwtRefreshTokenExpire")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("JwtToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("JwtTokenExpire")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 

@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+# my backup and note files
+WebAPI/backup
+
+
 # User-specific files
 *.rsuser
 *.suo

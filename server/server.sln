@@ -5,15 +5,15 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2D90429-5339-47D3-A1BC-B6439CF8BB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{ECFF31A9-E913-447F-B01C-4CD7E4567093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{ECFF31A9-E913-447F-B01C-4CD7E4567093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{862249C3-67F1-4D5B-B5CC-A0D89F167783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{862249C3-67F1-4D5B-B5CC-A0D89F167783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{956EAE9D-224A-4CF2-9B8E-21ACE27FBFFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{956EAE9D-224A-4CF2-9B8E-21ACE27FBFFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C3FCE77D-400E-4E71-9330-5B822D318A7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{C3FCE77D-400E-4E71-9330-5B822D318A7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{E832DCC0-5F08-4AD9-854E-5C6BE6A32851}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{E832DCC0-5F08-4AD9-854E-5C6BE6A32851}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

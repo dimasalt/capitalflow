@@ -13,7 +13,7 @@ namespace Infrastructure.Persistance
 {
     public class UserAccount(
         UserManager<ApplicationUser> userManager, 
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<IdentityRole> roleManager,      
         IConfiguration config
         ) : IUserAccount
     {
@@ -69,6 +69,15 @@ namespace Infrastructure.Persistance
             var userSession = new UserSession(getUser.Id, getUser.FullName, getUser.Email, getUserRole.First());
             string token = GenerateToken(userSession);
 
+            //add token to user table 
+            getUser.JwtRefreshToken = token;
+            getUser.JwtRefreshTokenExpire = DateTime.Now.AddDays(14);
+            var userUpdated = await userManager.UpdateAsync(getUser);
+
+            if (userUpdated is null)
+                return new LoginResponse(false, null, "Failed to login user");
+
+            //now when we know that everything is good return positive login response
             return new LoginResponse(true, token, "login completed");
         }
 
@@ -96,6 +105,12 @@ namespace Infrastructure.Persistance
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
+        //private string RefreshToken(UserSession user)
+        //{
+
+        //}
 
 
         //public async Task<GeneralResponse> CreateAccount(UserDto userDto)

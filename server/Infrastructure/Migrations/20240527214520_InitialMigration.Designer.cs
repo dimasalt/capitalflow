@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(CapitalFlowDbContext))]
-    [Migration("20240514225434_Initial")]
-    partial class Initial
+    [Migration("20240527214520_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,6 +106,18 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("FullName")
                         .HasColumnType("longtext");
+
+                    b.Property<string>("JwtRefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("JwtRefreshTokenExpire")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("JwtToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("JwtTokenExpire")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");

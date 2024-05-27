@@ -16,7 +16,7 @@ public static class DependencyInjection
         var connectionString = _configuration.GetConnectionString("Default");
 
         services.AddDbContext<CapitalFlowDbContext>(options =>
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), b => b.MigrationsAssembly("Infrastructure")));
 
         return services;
     }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,12 @@ namespace Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FullName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    JwtToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    JwtTokenExpire = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    JwtRefreshToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    JwtRefreshTokenExpire = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -71,44 +77,44 @@ namespace Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "contact",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    name = table.Column<string>(type: "varchar(100)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    address = table.Column<string>(type: "varchar(150)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    phone = table.Column<string>(type: "varchar(50)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    email = table.Column<string>(type: "varchar(50)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    note = table.Column<string>(type: "varchar(50)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    type = table.Column<int>(type: "int", nullable: false),
-                    created_at = table.Column<DateTime>(type: "datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_contact", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+            //migrationBuilder.CreateTable(
+            //    name: "contact",
+            //    columns: table => new
+            //    {
+            //        id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+            //        name = table.Column<string>(type: "varchar(100)", nullable: false)
+            //            .Annotation("MySql:CharSet", "utf8mb4"),
+            //        address = table.Column<string>(type: "varchar(150)", nullable: true)
+            //            .Annotation("MySql:CharSet", "utf8mb4"),
+            //        phone = table.Column<string>(type: "varchar(50)", nullable: true)
+            //            .Annotation("MySql:CharSet", "utf8mb4"),
+            //        email = table.Column<string>(type: "varchar(50)", nullable: true)
+            //            .Annotation("MySql:CharSet", "utf8mb4"),
+            //        note = table.Column<string>(type: "varchar(50)", nullable: true)
+            //            .Annotation("MySql:CharSet", "utf8mb4"),
+            //        type = table.Column<int>(type: "int", nullable: false),
+            //        created_at = table.Column<DateTime>(type: "datetime", nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_contact", x => x.id);
+            //    })
+            //    .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "contact_type",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    type = table.Column<string>(type: "varchar(50)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_contact_type", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+            //migrationBuilder.CreateTable(
+            //    name: "contact_type",
+            //    columns: table => new
+            //    {
+            //        id = table.Column<int>(type: "int", nullable: false)
+            //            .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+            //        type = table.Column<string>(type: "varchar(50)", nullable: false)
+            //            .Annotation("MySql:CharSet", "utf8mb4")
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_contact_type", x => x.id);
+            //    })
+            //    .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
