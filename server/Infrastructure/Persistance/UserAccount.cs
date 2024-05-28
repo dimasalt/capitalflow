@@ -74,6 +74,8 @@ namespace Infrastructure.Persistance
             getUser.JwtRefreshTokenExpire = DateTime.Now.AddDays(14);
             var userUpdated = await userManager.UpdateAsync(getUser);
 
+            
+
             if (userUpdated is null)
                 return new LoginResponse(false, null, "Failed to login user");
 
