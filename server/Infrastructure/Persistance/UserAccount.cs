@@ -13,11 +13,17 @@ namespace Infrastructure.Persistance
 {
     public class UserAccount(
         UserManager<ApplicationUser> userManager, 
-        RoleManager<IdentityRole> roleManager,      
+        RoleManager<IdentityRole> roleManager,
+        SignInManager<ApplicationUser> signInManager,
         IConfiguration config
         ) : IUserAccount
     {
 
+        /// <summary>
+        /// Creates user account and returns boolean flag is action is successfull and token, if not just flag = false
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns>Returns reposne that contains flag and JWT Token</returns>
         public async Task<GeneralResponse> CreateAccount(UserDto userDto)
         {
             if (userDto == null) return new GeneralResponse(false, "User information is Empty");
@@ -72,9 +78,7 @@ namespace Infrastructure.Persistance
             //add token to user table 
             getUser.JwtRefreshToken = token;
             getUser.JwtRefreshTokenExpire = DateTime.Now.AddDays(14);
-            var userUpdated = await userManager.UpdateAsync(getUser);
-
-            
+            var userUpdated = await userManager.UpdateAsync(getUser);            
 
             if (userUpdated is null)
                 return new LoginResponse(false, null, "Failed to login user");
@@ -82,6 +86,28 @@ namespace Infrastructure.Persistance
             //now when we know that everything is good return positive login response
             return new LoginResponse(true, token, "login completed");
         }
+
+
+        //public async Task<bool> Logout(string token)
+        //{
+        //    bool flag = false;
+        //    //get user id from JWT token
+        //    var handler = new JwtSecurityTokenHandler();
+        //    var oldToken = handler.ReadJwtToken(token);
+
+        //    //var getUser = new ApplicationUser();
+
+        //    foreach (var item in oldToken.Claims)
+        //    {
+        //        if (item.Type == "NameIdentifier")
+        //        {
+        //            var getUser = await userManager.FindByIdAsync(item.Value);                    
+        //            await signInManager.SignOutAsync();
+        //        }
+        //    }
+
+        //    return flag;
+        //}
 
 
         private string GenerateToken(UserSession user) {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Domain.Enteties;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 namespace Infrastructure.Data_Access;
