@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "/public/css/globals.css";
+
+import Navbar from "@/components/layout/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +17,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en"> 
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="CapitalFlow is a small business suite for accounting and tax records keeping" />
+        <meta name="keywords" content="taxes, expences, income, budget, budget projections, bills, business contacts, inventory" />
+        <meta name="author" content="Dmitri Saltanovich" />
+        <meta name="generator" content="" />
+        <meta name="robots" content="index, follow, cache" />
+       
+        <link rel="icon" href="/public/favicon.ico" type="image/png" sizes="32x32" />     
+
+         {/* <title></title> */}       
+      </head>
+
+      <body className={inter.className}>
+            
+          {/* Navbar */}
+          <Navbar />
+          
+          {children}
+      </body>
+
     </html>
   );
 }
