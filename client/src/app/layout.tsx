@@ -3,7 +3,6 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "/public/css/globals.css";
 
 import Navbar from "@/components/layout/Navbar";
-import CookiesComponent from "@/components/CookiesComponent/cookies";
 
 
 export const metadata: Metadata = {
@@ -26,13 +25,12 @@ export default function RootLayout({
         <meta name="generator" content="" />
         <meta name="robots" content="index, follow, cache" />
        
-        <link rel="icon" href="/public/favicon.ico" type="image/png" sizes="32x32" />     
+        {/* <link rel="icon" href="/public/favicon.ico" type="image/png" sizes="32x32" />      */}
 
          <title>Capital Flow - accounting software</title>       
       </head>
 
       <body>
-        <CookiesComponent />
             
           {/* Navbar */}
           <Navbar />
