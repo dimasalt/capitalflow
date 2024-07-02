@@ -1,17 +1,11 @@
 'use client';
 
 import Link from "next/link";
-import { memo, useEffect, useState } from "react";
 import { usePathname } from 'next/navigation'
-import { string } from "zod";
 
 const Navbar = () => {
-        
-    let pathName : string = usePathname();
 
-    if(pathName === "/") 
-        pathName = "/home";
-
+    const pathName : string = usePathname();
 
     //toggles menu button from open to close and other way around
     const toggleMenu = (action: string) => {
@@ -44,23 +38,23 @@ const Navbar = () => {
 
                 {/* <!-- an actual middle menu --> */}
                 <div className="me-10 justify-center mt-2 text-lg hidden md:flex">    
-                    <Link className={`hover:text-gray-100 mx-4 + ${pathName === "/home" || pathName === "" ? " text-gray-100" : " text-gray-400"}`}  id='home' 
+                    <Link className={`hover:text-gray-100 me-4 ${pathName === "/" || pathName.length === 0 ? "text-gray-100" : "text-gray-400"}`}  id='home' 
                         href="/">
                         <i className="bi bi-house me-1"></i>                       
                         Home
                     </Link>              
 
-                    <Link className={`hover:text-gray-100 mx-4 + ${pathName === "/records" ? " text-gray-100" : " text-gray-400"} `}
+                    <Link className={`hover:text-gray-100 mx-4 ${pathName === "/records" ? "text-gray-100" : "text-gray-400"} `}
                         href="/records" id="records">                                      
                         <i className="bi bi-bank me-1"></i>
                         Records
                     </Link>
-                    <Link className={`hover:text-gray-100 mx-4 + ${pathName === "/budgets" ? " text-gray-100" : " text-gray-400"}` }  
+                    <Link className={`hover:text-gray-100 mx-4 ${pathName === "/budgets" ? "text-gray-100" : "text-gray-400"}` }  
                         href="/budgets">                 
                         <i className="bi bi-cash-coin me-1"></i>
                         Budgets
                     </Link>    
-                    <Link className={`hover:text-gray-100 mx-4 + ${pathName === "/contacts" ? " text-gray-100" : " text-gray-400"}` }  
+                    <Link className={`hover:text-gray-100 mx-4 ${pathName === "/contacts" ? "text-gray-100" : "text-gray-400"}` }  
                         href="/contacts">                    
                         <i className="bi bi-file-earmark-person me-1"></i>
                         Contacts
@@ -69,9 +63,9 @@ const Navbar = () => {
 
                 {/* <!-- right side --> */}
                 <div className=' text-gray-400 mt-2 hidden md:flex'>
-                    <Link className={`hover:text-gray-100 me-3 + ${pathName === "/help" ? " text-gray-100" : " text-gray-400"}` }  
+                    <Link className={`hover:text-gray-100 me-3 ${pathName === "/help" ? " text-gray-100" : " text-gray-400"}` }  
                         href="/help">                    
-                        <i className="bi bi-question-square me-2" ></i>
+                        <i className="bi bi-question-square me-2"></i>
                         Help
                     </Link>              
                 </div>
@@ -84,11 +78,11 @@ const Navbar = () => {
                 </div>
             </nav>    
 
-            {/* <!-- visible only on small screens and when button is clicked --> */}
+            {/* <!-- mobile menu /visible only on small screens and when burger button is clicked --> */}
             <ul className='bg-neutral-700 text-gray-200 py-2 flex-row justify-items-center w-full hidden md:hidden shadow-sm' id="smallMenu">
                 <li>                    
                     <div className='w-full flex justify-start ms-10'>
-                        <Link className="hover:text-gray-100 me-8" id='test' href="/">
+                        <Link className="hover:text-gray-100 text-gray-400 me-8" id='test' href="/">
                             <i className="bi bi-house me-1"></i>
                             Home
                         </Link>
@@ -96,7 +90,7 @@ const Navbar = () => {
                 </li>
                 <li>                    
                     <div className='w-full flex justify-start ms-10'>
-                        <Link className="hover:text-gray-100 me-8" id='test' href="/records">
+                        <Link className="hover:text-gray-100 text-gray-400 me-8" id='test' href="/records">
                             <i className="bi bi-bank me-1"></i>
                             Records
                         </Link>
@@ -104,7 +98,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <div className='w-full flex justify-start ms-10'>
-                        <Link className="hover:text-gray-100 me-8" href="/budgets">
+                        <Link className="hover:text-gray-100 text-gray-400 me-8" href="/budgets">
                             <i className="bi bi-cash-coin me-1"></i>
                             Budgets
                         </Link>    
@@ -112,7 +106,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <div className='w-full flex justify-start ms-10'>
-                        <Link className="hover:text-gray-100 me-8" href="/contacts">
+                        <Link className="hover:text-gray-100 text-gray-400 me-8" href="/contacts">
                             <i className="bi bi-file-earmark-person me-1"></i> 
                             Contacts
                         </Link>  
@@ -120,7 +114,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <div className='w-full flex justify-start ms-10'>
-                        <Link className=" hover:text-gray-100 me-3" href="/help">
+                        <Link className=" hover:text-gray-100 text-gray-400 me-3" href="/help">
                             <i className="bi bi-question-square me-2" ></i>
                             Help
                         </Link>   
