@@ -2,12 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
+import { useEffect } from "react";
 
 const Navbar = () => {
 
-    const pathName : string = usePathname();
+    useEffect(() => {
+        hideMenu();
+    }); //no dependencies
 
-    //toggles menu button from open to close and other way around
+
+    const pathName : string = usePathname();       
+
+    /*
+     *-------------------------------------------------------------
+     * toggles menu button from open to close and other way around
+     * ------------------------------------------------------------
+     */
     const toggleMenu = (action: string) => {
 
         const burger = document.querySelector('#burger');
@@ -26,9 +36,23 @@ const Navbar = () => {
         }
     }
 
+    /*
+     *-----------------------------------------
+     * hide menu in certain pages 
+     *-----------------------------------------
+     */
+    const hideMenu = () => {
+        
+        //hide top menu if page is login
+        if(pathName === "/login"){
+            const largeMenu = document.querySelector('#largeMenu');
+            largeMenu?.classList.add('hidden');     
+    }
+}
+
     return (
         <>
-            <nav className="flex justify-around shadow-md bg-cyan-900 py-4 w-full">
+            <nav className="flex justify-around shadow-md bg-cyan-900 py-4 w-full" id="largeMenu">
                 {/* <!-- logo and app name --> */}
                 <div className=' w-full md:w-fit'>
                     <Link className=" text-gray-200 font-semibold text-2xl md:text-3xl" href="/">
