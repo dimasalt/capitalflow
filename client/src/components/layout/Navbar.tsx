@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
-import { useEffect } from "react";
 
 const Navbar = () => {
 
-    useEffect(() => {
-        hideMenu();
-    }); //no dependencies
-
-
+    //get current page
     const pathName : string = usePathname();       
+
+    //hide or display nav menu if page is login
+    const navBarDisplay : string = pathName === "/login" ? "hidden" : "";
 
     /*
      *-------------------------------------------------------------
@@ -35,23 +33,8 @@ const Navbar = () => {
             smallMenu?.classList.add('hidden');
         }
     }
-
-    /*
-     *-----------------------------------------
-     * hide menu in certain pages 
-     *-----------------------------------------
-     */
-    const hideMenu = () => {
-        
-        //hide top menu if page is login
-        if(pathName === "/login"){
-            const largeMenu = document.querySelector('#largeMenu');
-            largeMenu?.classList.add('hidden');     
-    }
-}
-
-    return (
-        <>
+    return (        
+         <section className={navBarDisplay}>
             <nav className="flex justify-around shadow-md bg-cyan-900 py-4 w-full" id="largeMenu">
                 {/* <!-- logo and app name --> */}
                 <div className=' w-full md:w-fit'>
@@ -145,7 +128,7 @@ const Navbar = () => {
                     </div>           
                 </li>
             </ul>       
-        </>
+        </section>
     );
 }
 

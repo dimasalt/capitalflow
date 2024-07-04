@@ -18,6 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en"> 
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="CapitalFlow is a small business suite for accounting and tax records keeping" />
         <meta name="keywords" content="taxes, expences, income, budget, budget projections, bills, business contacts, inventory" />
@@ -25,7 +27,7 @@ export default function RootLayout({
         <meta name="generator" content="" />
         <meta name="robots" content="index, follow, cache" />
        
-        {/* <link rel="icon" href="/public/favicon.ico" type="image/png" sizes="32x32" />      */}
+        {/* <link rel="icon" href="/public/favicon.ico" type="image/png" sizes="32x32" />      */}        
 
          <title>Capital Flow - accounting software</title>       
       </head>
