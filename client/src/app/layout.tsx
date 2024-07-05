@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en"> 
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+        <meta charSet="utf-8" />     
+        
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="CapitalFlow is a small business suite for accounting and tax records keeping" />
         <meta name="keywords" content="taxes, expences, income, budget, budget projections, bills, business contacts, inventory" />
