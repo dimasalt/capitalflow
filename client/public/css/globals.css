@@ -18,6 +18,8 @@
 
 body {
   background-color: white;
+  /* color: rgb(75, 85, 99); */
+  color: #1f2937; 
 }
 
 
@@ -25,4 +27,27 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .btn {
+    @apply px-6 h-10 font-semibold text-lg;
+  }
+
+  /* green submit button */
+  .submit-btn {
+    @apply text-gray-100 bg-cyan-900 hover:bg-cyan-700;
+  }
+
+  .cancel-btn {
+    @apply bg-red-700 hover:bg-red-600 text-gray-200; 
+  }
+
+  /* inputs */
+  input[type="text"]{
+    @apply h-10 border px-4 w-full bg-gray-50 text-gray-800 appearance-none outline-none;
+  }
+
+  textarea {
+    @apply border px-2 w-full bg-gray-50 text-gray-800 appearance-none outline-none;
+  }
+  
 }
