@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Data_Access;
 using Infrastructure.Dto;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,7 +16,8 @@ namespace Infrastructure.Persistance
         UserManager<ApplicationUser> userManager, 
         RoleManager<IdentityRole> roleManager,
         SignInManager<ApplicationUser> signInManager,
-        IConfiguration config
+        IConfiguration config,
+        CapitalFlowDbContext _context
         ) : IUserAccount
     {
 
@@ -24,7 +26,7 @@ namespace Infrastructure.Persistance
         /// </summary>
         /// <param name="userDto"></param>
         /// <returns>Returns reposne that contains flag and JWT Token</returns>
-        public async Task<GeneralResponse> CreateAccount(UserDto userDto)
+        public async Task<GeneralResponse> CreateAccountAsync(UserDto userDto)
         {
             if (userDto == null) return new GeneralResponse(false, "User information is Empty");
 
@@ -58,7 +60,7 @@ namespace Infrastructure.Persistance
 
 
 
-        public async Task<LoginResponse> LoginAccount(LoginDto loginDto)
+        public async Task<LoginResponse> LoginAccountAsync(LoginDto loginDto)
         {
              if (loginDto == null) 
                 return new LoginResponse(false, null, "User container is empty");
@@ -88,26 +90,39 @@ namespace Infrastructure.Persistance
         }
 
 
-        //public async Task<bool> Logout(string token)
-        //{
-        //    bool flag = false;
-        //    //get user id from JWT token
-        //    var handler = new JwtSecurityTokenHandler();
-        //    var oldToken = handler.ReadJwtToken(token);
+        /// <summary>
+        /// Receives token and if user is found logs out user. Returns boolean true or false if user is logged out or not
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<bool> LogoutAsync(string token)
+        {
+            try
+            {
+                var jwtToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
 
-        //    //var getUser = new ApplicationUser();
+                //get user from JWT token
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.JwtToken == token);
 
-        //    foreach (var item in oldToken.Claims)
-        //    {
-        //        if (item.Type == "NameIdentifier")
-        //        {
-        //            var getUser = await userManager.FindByIdAsync(item.Value);                    
-        //            await signInManager.SignOutAsync();
-        //        }
-        //    }
+                //if user not found return false as there is no user to logout
+                if (user == null)
+                {
+                    return false;
+                }
 
-        //    return flag;
-        //}
+                //else remove token from user table and return true
+                user.JwtToken = null;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
 
         private string GenerateToken(UserSession user) {

@@ -5,7 +5,8 @@ namespace Infrastructure.Persistance
 {
     public interface IUserAccount
     {
-        Task<GeneralResponse> CreateAccount(UserDto userDto);
-        Task<LoginResponse> LoginAccount(LoginDto loginDto);
+        Task<GeneralResponse> CreateAccountAsync(UserDto userDto);
+        Task<LoginResponse> LoginAccountAsync(LoginDto loginDto);
+        Task<LogoutResponse> LogoutAccountAsync(string token);
     }
 }

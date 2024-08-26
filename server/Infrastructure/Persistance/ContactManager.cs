@@ -40,8 +40,19 @@ namespace Infrastructure.Persistance
         {
             Contact? contact = new Contact();
 
-            contact = await _dbContext.Contacts.FirstOrDefaultAsync(n => n.Id == id);
+            try
+            {
+                contact = await _dbContext.Contacts.FirstOrDefaultAsync(n => n.Id == id);
 
+                if (contact == null)
+                    return null;               
+            }
+            catch
+            {
+                return null;
+            }
+
+            //if everything is ok and contact is found then return contact
             return contact;
         }
 
@@ -54,7 +65,7 @@ namespace Infrastructure.Persistance
         /// <returns>Created contact with contact id</returns>               
         public async Task<bool> AddContactAsync(Contact contact)
         {
-            bool result = true;
+            bool flag = true;
 
             try
             {
@@ -63,10 +74,10 @@ namespace Infrastructure.Persistance
             }
             catch
             {
-                result = false;
+                flag = false;
             }
           
-            return result;
+            return flag;
         }
 
 
@@ -91,7 +102,10 @@ namespace Infrastructure.Persistance
 
                 return true;
             }
-            catch { return false; }
+            catch 
+            { 
+                return false; 
+            }
 
             //await _dbContext.Contacts.Where(c => c.Id == Id).ExecuteDeleteAsync();        
         }
