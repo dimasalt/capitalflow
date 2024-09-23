@@ -23,9 +23,9 @@ namespace Infrastructure.Persistance
             List<Contact> contacts = new List<Contact>();
 
             if(ContactType == 0)            
-                contacts = await _dbContext.Contacts.ToListAsync();            
+                contacts = await _dbContext.Contacts.AsNoTracking().ToListAsync();            
             else            
-                contacts = await _dbContext.Contacts.Where(n => n.Type == ContactType).ToListAsync();
+                contacts = await _dbContext.Contacts.AsNoTracking().Where(n => n.Type == ContactType).ToListAsync();
             
             
             return contacts;
@@ -42,7 +42,7 @@ namespace Infrastructure.Persistance
 
             try
             {
-                contact = await _dbContext.Contacts.FirstOrDefaultAsync(n => n.Id == id);
+                contact = await _dbContext.Contacts.AsNoTracking().FirstOrDefaultAsync(n => n.Id == id);
 
                 if (contact == null)
                     return null;               
