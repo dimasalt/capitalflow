@@ -1,0 +1,23 @@
+services:
+  feed_calculator:    
+    container_name: feedcalculator
+    environment:
+      NODE_ENV: production
+    build: 
+      context: .
+      dockerfile: ./Dockerfile         
+    ports:
+      - 3001:3001    
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - webapp
+
+
+
+networks:
+  webapp:
+    driver: bridge
+    external: true
+

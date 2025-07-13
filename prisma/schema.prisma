@@ -1,0 +1,272 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model budget {
+  id                   Int      @id(map: "idx_16579_PRIMARY") @default(autoincrement())
+  parent_id            Int      @default(0)
+  budget_name          String   @db.VarChar(150)
+  budget_amount        Decimal  @db.Decimal(19, 2)
+  budget_amount_actual Decimal  @db.Decimal(19, 2)
+  is_done              Int      @default(0) @db.SmallInt
+  is_default           Int      @default(0) @db.SmallInt
+  budget_date          DateTime @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model contact {
+  name       String   @db.VarChar(100)
+  address    String?  @db.VarChar(150)
+  phone      String?  @db.VarChar(50)
+  email      String?  @db.VarChar(50)
+  note       String?  @db.VarChar(250)
+  type       Int      @default(1) @db.SmallInt
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  Id         Int      @id @default(autoincrement())
+}
+
+model contact_type {
+  id   Int    @id(map: "idx_16600_PRIMARY") @default(autoincrement())
+  type String @default("0") @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model event {
+  id           String     @id(map: "idx_16605_PRIMARY") @default("uuid()") @db.Char(36)
+  ev_type_id   String     @db.Char(36)
+  livestock_id String     @db.Char(36)
+  ev_value     String     @default("") @db.VarChar(50)
+  note         String     @db.VarChar(250)
+  ev_date      DateTime   @db.Timestamptz(6)
+  created_at   DateTime   @default(now()) @db.Timestamptz(6)
+  event_type   event_type @relation(fields: [ev_type_id], references: [id], onDelete: Cascade, map: "FK_event_event_type")
+  livestock    livestock  @relation(fields: [livestock_id], references: [id], onDelete: Cascade, map: "FK_event_livestock")
+
+  @@index([ev_type_id], map: "idx_16605_FK_event_event_type")
+  @@index([livestock_id], map: "idx_16605_FK_event_livestock")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model event_type {
+  id           String   @id(map: "idx_16611_PRIMARY") @default("uuid()") @db.Char(36)
+  ev_type_name String   @db.VarChar(25)
+  ev_type_desc String?  @db.VarChar(300)
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+  event        event[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model feed {
+  id            BigInt    @id(map: "idx_16618_PRIMARY") @default(autoincrement())
+  feed_name     String    @db.VarChar(150)
+  feed_desc     String?   @db.VarChar(250)
+  feed_cp       BigInt
+  feed_tdn      BigInt
+  feed_type     String    @db.VarChar(25)
+  feed_price    Decimal   @default(0.00) @db.Decimal(19, 2)
+  feed_price_lb BigInt?
+  feed_usage    BigInt    @default(100)
+  is_default    Int       @default(0) @db.SmallInt
+  feed_date     DateTime? @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model feed_requirement {
+  id          BigInt  @id(map: "idx_16627_PRIMARY") @default(autoincrement())
+  weight      BigInt  @default(0)
+  animal_type String  @db.VarChar(50)
+  adg         Decimal @db.Decimal(19, 1)
+  dm_per_day  Decimal @db.Decimal(19, 1)
+  cp          Decimal @default(0.0) @db.Decimal(19, 1)
+  tdn         BigInt
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model livestock {
+  id                 String               @id(map: "idx_16633_PRIMARY") @default("uuid()") @db.Char(36)
+  tag                String               @db.VarChar(50)
+  livestock_type     String               @default("") @db.VarChar(10)
+  livestock_subtype  String               @default("") @db.VarChar(10)
+  is_active          Int                  @default(1) @db.SmallInt
+  purchase_date      DateTime             @default(now()) @db.Timestamptz(6)
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  event              event[]
+  livestock_to_group livestock_to_group[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model livestock_category {
+  id                   BigInt   @id(map: "idx_16643_PRIMARY") @default(autoincrement())
+  parent_id            BigInt   @default(0)
+  category_name        String   @db.VarChar(150)
+  category_description String?  @db.VarChar(250)
+  created_at           DateTime @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model livestock_group {
+  id                 BigInt               @id(map: "idx_16651_PRIMARY") @default(autoincrement())
+  group_name         String               @db.VarChar(150)
+  group_desc         String?              @db.VarChar(250)
+  created_at         DateTime             @default(now()) @db.Timestamptz(6)
+  livestock_to_group livestock_to_group[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model livestock_to_group {
+  id              BigInt          @id(map: "idx_16658_PRIMARY") @default(autoincrement())
+  livestock_id    String          @db.Char(36)
+  group_id        BigInt          @default(0)
+  created_at      DateTime        @default(now()) @db.Timestamptz(6)
+  livestock       livestock       @relation(fields: [livestock_id], references: [id], onDelete: Cascade, map: "FK_livestock_to_group_livestock")
+  livestock_group livestock_group @relation(fields: [group_id], references: [id], onDelete: Cascade, map: "FK_livestock_to_group_livestock_group")
+
+  @@index([livestock_id], map: "idx_16658_FK_livestock_to_group_livestock")
+  @@index([group_id], map: "idx_16658_FK_livestock_to_group_livestock_group")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model medication {
+  id            BigInt   @id(map: "idx_16665_PRIMARY") @default(autoincrement())
+  name          String   @db.VarChar(50)
+  desc          String?  @db.VarChar(550)
+  instruction   String?  @db.VarChar(2000)
+  img           String?  @db.VarChar(150)
+  price         Decimal? @default(0.00) @db.Decimal(19, 2)
+  on_hand_doses BigInt   @default(0)
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model transaction {
+  id               String             @id(map: "idx_16677_PRIMARY") @default("uuid()") @db.Char(36)
+  trans_desc       String?            @db.VarChar(250)
+  vendor_name      String?            @db.VarChar(50)
+  vendor_address   String?            @db.VarChar(250)
+  trans_currency   String             @default("C$") @db.VarChar(10)
+  trans_image      String?            @db.VarChar(250)
+  trans_date       DateTime           @default(now()) @db.Timestamptz(6)
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?          @db.Timestamptz(6)
+  transaction_item transaction_item[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model transaction_category {
+  id                   BigInt   @id(map: "idx_16691_PRIMARY") @default(autoincrement())
+  parent_id            BigInt   @default(0)
+  category_name        String   @db.VarChar(150)
+  category_description String?  @db.VarChar(250)
+  created_at           DateTime @default(now()) @db.Timestamptz(6)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model transaction_item {
+  id               String      @id(map: "idx_16698_PRIMARY") @default("uuid()") @db.Char(36)
+  transaction_id   String      @db.Char(36)
+  item_name        String      @db.VarChar(150)
+  item_desc        String?     @db.VarChar(250)
+  item_category    String      @db.VarChar(150)
+  item_subcategory String      @db.VarChar(150)
+  amount           Decimal     @db.Decimal(19, 2)
+  hst_tax          Decimal     @default(0.00) @db.Decimal(19, 2)
+  gst_tax          Decimal     @default(0.00) @db.Decimal(19, 2)
+  pst_tax          Decimal     @default(0.00) @db.Decimal(19, 2)
+  is_expence       Int         @default(1) @db.SmallInt
+  created_at       DateTime    @default(now()) @db.Timestamptz(6)
+  transaction      transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade, map: "FK_transaction_item_transaction")
+
+  @@index([transaction_id], map: "idx_16698_FK_transaction_item_transaction")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user {
+  id           String         @id(map: "idx_16710_PRIMARY") @default("uuid()") @db.Char(36)
+  username     String         @db.VarChar(15)
+  password     String         @db.VarChar(255)
+  email        String         @db.VarChar(50)
+  is_active    Int            @default(1) @db.SmallInt
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  user_detail  user_detail[]
+  user_logins  user_logins[]
+  user_to_role user_to_role[]
+}
+
+model user_detail {
+  id         BigInt   @id(map: "idx_16717_PRIMARY") @default(autoincrement())
+  user_id    String   @db.Char(36)
+  fname      String?  @db.VarChar(50)
+  lname      String?  @db.VarChar(50)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  user       user     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_user_detail_user")
+
+  @@index([user_id], map: "idx_16717_FK_user_detail_user")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_logins {
+  id          BigInt    @id(map: "idx_16725_PRIMARY") @default(autoincrement())
+  user_id     String    @db.Char(36)
+  token       String    @db.VarChar(50)
+  user_agent  String    @db.VarChar(50)
+  user_ip     String    @db.VarChar(50)
+  modified_at DateTime? @db.Timestamptz(6)
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  user        user      @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_user_logins_user")
+
+  @@index([user_id], map: "idx_16725_FK_user_logins_user")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_role {
+  id           String         @id(map: "idx_16730_PRIMARY") @default("uuid()") @db.Char(36)
+  role         String         @db.VarChar(10)
+  role_desc    String?        @db.VarChar(150)
+  created_at   DateTime       @default(now()) @db.Timestamptz(6)
+  user_to_role user_to_role[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_to_role {
+  id         BigInt    @id(map: "idx_16737_PRIMARY") @default(autoincrement())
+  user_id    String    @db.Char(36)
+  role_id    String    @db.Char(36)
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_user_to_role_user")
+  user_role  user_role @relation(fields: [role_id], references: [id], onDelete: Cascade, map: "FK_user_to_role_user_role")
+
+  @@index([user_id], map: "idx_16737_FK_user_to_role_user")
+  @@index([role_id], map: "idx_16737_FK_user_to_role_user_role")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model vehicle_log_book {
+  id                    BigInt                  @id(map: "idx_16743_PRIMARY") @default(autoincrement())
+  year_start_odometer   BigInt
+  year_end_odometer     BigInt?
+  vehicle_desc          String                  @db.VarChar(150)
+  created_at            DateTime                @default(now()) @db.Timestamptz(6)
+  vehicle_log_book_item vehicle_log_book_item[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model vehicle_log_book_item {
+  id                  BigInt           @id(map: "idx_16749_PRIMARY") @default(autoincrement())
+  vehicle_log_book_id BigInt
+  destination         String           @db.VarChar(250)
+  address             String           @default("") @db.VarChar(250)
+  purpose             String           @db.VarChar(150)
+  travel_distance     BigInt           @default(0)
+  created_at          DateTime         @default(now()) @db.Timestamptz(6)
+  travel_date         DateTime         @default(now()) @db.Timestamptz(6)
+  vehicle_log_book    vehicle_log_book @relation(fields: [vehicle_log_book_id], references: [id], onDelete: Cascade, map: "FK_vehicle_log_book_item_vehicle_log_book")
+
+  @@index([vehicle_log_book_id], map: "idx_16749_FK_vehicle_log_book_item_vehicle_log_book")
+}
